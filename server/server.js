@@ -1,3 +1,5 @@
+require('./config/config');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
@@ -10,8 +12,8 @@ var {User} = require('./models/user');
 
 var app = express();
 
-/* Setting port to either environment variable port or 3000 for local */
-const port = process.env.PORT || 3000;
+/* Setting port to either environment variable port */
+const port = process.env.PORT;
 
 /* Midleware */
 app.use(bodyParser.json());
