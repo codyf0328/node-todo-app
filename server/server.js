@@ -2,16 +2,21 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
 
+
 var {mongoose} = require('./db/mongoose');
 var {ObjectID} = require('mongodb');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 
 var app = express();
+
+/* Setting port to either environment variable port or 3000 for local */
 const port = process.env.PORT || 3000;
 
+/* Midleware */
 app.use(bodyParser.json());
 
+/* Fires when a 'POST /todos' request is sent*/
 app.post('/todos', (req, res) => {
     var todo = new Todo({
         text: req.body.text
@@ -24,6 +29,7 @@ app.post('/todos', (req, res) => {
     });
 });
 
+/* Fires when a 'GET /todos' request is sent*/
 app.get('/todos', (req, res) => {
     Todo.find().then((todos) => {
         res.send({todos});
@@ -32,6 +38,7 @@ app.get('/todos', (req, res) => {
     });
 });
 
+/* Fires when a 'GET/todos/:id' request is sent*/
 app.get('/todos/:id', (req, res) => {
     var id = req.params.id;
 
@@ -51,6 +58,7 @@ app.get('/todos/:id', (req, res) => {
     });
 });
 
+/* Fires when a 'DELETE /todos/:id' request is sent*/
 app.delete('/todos/:id', (req, res) => {
     var id = req.params.id;
 
@@ -69,6 +77,7 @@ app.delete('/todos/:id', (req, res) => {
     })
 });
 
+/* Fires when a 'PATCH /todos/:id' request is sent*/
 app.patch('/todos/:id', (req, res) => {
     var id = req.params.id;
     var body = _.pick(req.body, ['text', 'completed']);
