@@ -52,6 +52,17 @@ UserSchema.methods.generateAuthToken = function () {
     });
 };
 
+UserSchema.methods.removeToken = function (token) {
+    var user = this;
+
+    // does 
+    return user.update({
+        $pull: {
+            tokens: {token}
+        }
+    });
+};
+
 UserSchema.statics.findByToken = function(token) {
     var User = this;
     var decoded;
@@ -93,6 +104,9 @@ UserSchema.statics.findByCredentials = function(email, password) {
     });
 };
 
+
+// Run this before the user is saved
+// adds salt and hash to password
 UserSchema.pre('save', function(next) {
     var user = this;
 
